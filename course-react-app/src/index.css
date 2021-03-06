@@ -1,0 +1,132 @@
+body {
+  background-color: lightgrey;
+}
+ul.header li {
+  display: inline;
+  list-style-type: none;
+  margin: 0;
+}
+ul.header {
+  background-color: darkgray;
+  padding: 0;
+}
+ul.header li a {
+  color: black;
+  font-weight: bold;
+  text-decoration: none;
+  padding: 20px;
+  display: inline-block;
+}  
+
+.active {
+  background-color:  rgb(240, 240, 240);
+}
+
+
+
+h1, h2, h3 {
+  color: black;
+  text-align: center;
+  font-family: 'Times New Roman', Times, serif;
+}
+p {
+    color: black;text-align: center;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: medium;
+    
+}
+img {
+  width: 400;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+label {
+  display: inline-block;
+  margin: auto, auto, auto, auto;
+  clear: left;
+  width: 50%;
+  text-align: right;
+}
+article {
+  text-align: center;
+}
+.videoWrap {
+  text-align: center;
+}
+.video {
+  display: flex; 
+  justify-content: center;
+  
+}
+input {
+  font-family: 'Times New Roman', Times, serif;
+  font-size: medium;
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+textarea {
+  font-family: 'Times New Roman', Times, serif;
+  font-size: medium;
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+  
+input[type=submit] {
+  font-family: 'Times New Roman', Times, serif;
+  font-size: large;
+  width: 100%;
+  background-color:grey;
+  color: black;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+input[type=submit]:hover {
+  background-color:  rgb(168, 168, 168)
+}
+.text {
+  text-align: left;
+  line-height: 2;
+}
+div {
+  border-radius: 5px;
+  background-color: #f2f2f2;
+  padding: 20px;
+}
+.skills {
+  list-style-type: square;
+list-style-position: inside;
+}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: rgb(230, 230, 230)
+}
+li {
+  line-height: 2;
+}
+
+li.resume {
+  text-align: left;
+}
+.hobbies {
+  text-align: center;
+}
+
