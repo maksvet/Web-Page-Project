@@ -1,2 +1,3 @@
 # FS1010CourseProject
-React form plus restful API
+Static site converted to React app.
+Back end to be connected to contact page.
