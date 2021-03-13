@@ -10,6 +10,7 @@ import Contact from "./Contact";
 import Portfolio from "./Portfolio";
 import Hobbies from "./Hobbies";
 import Login from "./Login";
+import entriesPage from "./entriesPage";
  
 class Main extends Component {
   render() {
@@ -31,6 +32,8 @@ class Main extends Component {
             <Route path="/hobbies" component={Hobbies}/>
             <Route path="/contact" component={Contact}/>
             <Route path="/login" component={Login}/>
+            <Route path="/entriespage" component={entriesPage}/>
+            <Route path="/new" component={entriesPage}/>
              
           </div>
         </div>

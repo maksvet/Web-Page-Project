@@ -1,25 +1,32 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 
   const Login = (props) => {
-  const [name, setName] = useState("")
+  const history = useHistory();
+  const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+  const [jwt, setJwt] = useState("")
   const formSubmit = async event => {
     event.preventDefault()
-    const response = await fetch('http://localhost:3007/contact_form/entries', {
+    const response = await fetch('http://localhost:3007/auth', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
               },
-            body: JSON.stringify({name, password})
+            body: JSON.stringify({email, password})
         })
         const payload = await response.json()
         if (response.status >= 400) {
-          alert(`Oops! Error: ${payload.message} for fields: ${payload.invalid.join(",")}`)
+          alert(`Oops! Error: ${payload}`)
         } else {
-            setName("")//clearing the input fields on submit
-            setPassword("")
+            localStorage.setItem('token', payload.token)
+            setJwt(payload.token)
+            const storedJwt = localStorage.getItem('token')
             alert(`You are logged in!`)
+            history.push("/entriespage");
+            
+
         }
         
   }
@@ -30,7 +37,7 @@ import React, { useState } from "react";
         <h1>Admin login</h1>
       <form onSubmit={formSubmit}>
       <label htmlFor="name"></label>
-      <input type="text" id="name" name="name" placeholder="Your username..." required value={name} onChange={e => setName(e.target.value)}/>
+      <input type="email" id="email" name="email" placeholder="Your email..." required value={email} onChange={e => setEmail(e.target.value)}/>
   
       <label htmlFor="password"></label>
       <input type="password" id="password" name="password" placeholder="Your password..." required value={password} onChange={e => setPassword(e.target.value)}/>

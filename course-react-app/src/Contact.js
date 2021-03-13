@@ -9,7 +9,6 @@ import React, { useState } from "react";
   const formSubmit = async event => {
     event.preventDefault()
     const response = await fetch('http://localhost:3007/contact_form/entries', {
-            //mode: 'no-cors',
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
