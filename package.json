@@ -1,7 +1,7 @@
 {
-    "name": "course-project-fs1020",
+    "name": "course-project-fs1030",
     "version": "1.0.0",
-    "description": "Backend application consisting of a RESTful JSON API for a \"contact us\" form.",
+    "description": "React frontend + Node Express + MySQL",
     "main": "index.js",
     "scripts": {
         "start": "node -r esm index.js",
@@ -10,14 +10,14 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://gitlab.com/maksvet/course-project-fs1020.git"
+        "url": "git+https://gitlab.com/maksvet/fs1030individualproject.git"
     },
     "author": "Maksim Svetlakov",
     "license": "ISC",
     "bugs": {
-        "url": "https://gitlab.com/maksvet/course-project-fs1020/issues"
+        "url": "https://gitlab.com/maksvet/fs1030individualproject/issues"
     },
-    "homepage": "https://gitlab.com/maksvet/course-project-fs1020#readme",
+    "homepage": "https://gitlab.com/maksvet/fs1030individualproject#readme",
     "dependencies": {
         "bcryptjs": "^2.4.3",
         "body-parser": "^1.19.0",
