@@ -6,7 +6,7 @@ import React, { useState } from "react";
   const loadEntries = async event => {
     event.preventDefault()
     const jwt = localStorage.getItem('token')
-    const response = await fetch('http://localhost:3007/contact_form/entries', {
+    const response = await fetch('http://localhost:3008/contact_form/entries', {
             method: 'GET',
             headers: {
                 'Authorization': 'Bearer ' + jwt
@@ -17,24 +17,22 @@ import React, { useState } from "react";
     }
     
 
-    return(
-        <div>
+    return (
+      <div>
         <h1>Entries page</h1>
-        <button 
-        onClick={loadEntries}>
-          Load Entries
-        </button>
+        <button onClick={loadEntries}>Load Entries</button>
         <section className="container">
-        
-        <div id = "Entries">
-      { entries.map((item, key) =>
-        <li>ID: {item.id}; Name: {item.name}; Email: {item.email}; Phone number: {item.phoneNumber}; Message: {item.content}</li>
-      )}
-    </div>
-        
-      </section>
-    </div>
-   )
+          <div id="Entries">
+            {entries.map((item, key) => (
+              <li key={item.id}>
+                ID: {item.id}; Name: {item.name}; Email: {item.email}; Phone
+                number: {item.phoneNumber}; Message: {item.content}
+              </li>
+            ))}
+          </div>
+        </section>
+      </div>
+    );
     
   
 }

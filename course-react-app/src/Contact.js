@@ -8,7 +8,7 @@ import React, { useState } from "react";
   const [password] = "somepassword" // I left password for the API to be functional
   const formSubmit = async event => {
     event.preventDefault()
-    const response = await fetch('http://localhost:3007/contact_form/entries', {
+    const response = await fetch('http://localhost:3008/contact_form/entries', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',

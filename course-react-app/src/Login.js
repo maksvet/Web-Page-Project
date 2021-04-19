@@ -8,7 +8,7 @@ import { useHistory } from "react-router-dom";
   const [jwt, setJwt] = useState("")
   const formSubmit = async event => {
     event.preventDefault()
-    const response = await fetch('http://localhost:3007/auth', {
+    const response = await fetch('http://localhost:3008/auth', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -22,7 +22,7 @@ import { useHistory } from "react-router-dom";
         } else {
             localStorage.setItem('token', payload.token)
             setJwt(payload.token)
-            const storedJwt = localStorage.getItem('token')
+            //const storedJwt = localStorage.getItem('token')
             alert(`You are logged in!`)
             history.push("/entriespage");
             
