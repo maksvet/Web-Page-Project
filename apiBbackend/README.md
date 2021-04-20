@@ -1,6 +1,6 @@
-# Course Project FS1020
+
 Backend application consisting of a RESTful JSON API for a "contact us" form.
-Server port: 3007
+Server port: 3008
 Terminal commands:
 npm install (for installing dependencies)
 npm start 

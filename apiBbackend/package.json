@@ -1,7 +1,7 @@
 {
-  "name": "course-project-fs1020",
+  "name": "course-project-fs1030",
   "version": "1.0.0",
-  "description": "Backend application consisting of a RESTful JSON API for a \"contact us\" form.",
+  "description": "Backend application consisting of a RESTful JSON API",
   "main": "index.js",
   "scripts": {
     "start": "node -r esm index.js",
@@ -29,6 +29,7 @@
     "uuid": "^8.3.1"
   },
   "devDependencies": {
+    "concurrently": "^6.0.2",
     "nodemon": "^2.0.6"
   }
 }

@@ -4,7 +4,9 @@
     "description": "React frontend + Node Express + MySQL",
     "main": "index.js",
     "scripts": {
-        "start": "node -r esm index.js",
+        "backEnd": "cd apiBbackend && npm run dev",
+        "frontEnd": "cd course-react-app && npm start",
+        "start": "concurrently \"npm run backEnd\" \"npm run frontEnd\"",
         "dev": "nodemon -r esm index.js",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
@@ -26,6 +28,7 @@
         "esm": "^3.2.25",
         "express": "^4.17.1",
         "jsonwebtoken": "^8.5.1",
+        "concurrently": "^7.10.0",
         "uuid": "^8.3.1"
     },
     "devDependencies": {
