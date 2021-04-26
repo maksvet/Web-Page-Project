@@ -75,19 +75,19 @@ VALUES ('Canada', 'ON', 'Stouffville', '15752 McCowan Rd.'),
 ('US', 'Massachusetts', 'Cambridge', null),
 ('Canada', 'QC', 'Westmount', null);
 
--- DROP TABLE IF EXISTS `personal_info`;
--- CREATE TABLE `personal_info` (
---   `address_id` INT NOT NULL,
---   `contact_id` INT NOT NULL,
---   `personal_info_id` INT NOT NULL AUTO_INCREMENT ,
---   PRIMARY KEY (`personal_info_id`),
---   KEY `address_id` (`address_id`),
---   KEY `contact_id` (`contact_id`),
---   CONSTRAINT `address_id_ibfk_1` FOREIGN KEY (`address_id`) REFERENCES `address` (`address_id`),
---   CONSTRAINT `contact_id_ibfk_1` FOREIGN KEY (`contact_id`) REFERENCES `contact_info` (`contact_id`)
--- );
--- INSERT INTO `personal_info` (`address_id`, `contact_id`)
--- VALUES (1, 1);
+DROP TABLE IF EXISTS `personal_info`;
+CREATE TABLE `personal_info` (
+  `address_id` INT NOT NULL,
+  `contact_id` INT NOT NULL,
+  `personal_info_id` INT NOT NULL AUTO_INCREMENT ,
+  PRIMARY KEY (`personal_info_id`),
+  KEY `address_id` (`address_id`),
+  KEY `contact_id` (`contact_id`),
+  CONSTRAINT `address_id_ibfk_1` FOREIGN KEY (`address_id`) REFERENCES `address` (`address_id`),
+  CONSTRAINT `contact_id_ibfk_1` FOREIGN KEY (`contact_id`) REFERENCES `contact_info` (`contact_id`)
+);
+INSERT INTO `personal_info` (`address_id`, `contact_id`)
+VALUES (1, 1);
 
 DROP TABLE IF EXISTS `institution`;
 CREATE TABLE `institution` (
@@ -120,17 +120,19 @@ INSERT INTO `education` (`education_title`, `date_to_id`, `institution_id`)
 VALUES ('Cerificate in Full-Stack Web Developement.', 4, 1),
 ('Diploma in Aircraft Mechanics.', 7, 4);
 
+
 DROP TABLE IF EXISTS `contact_form_input`;
 CREATE TABLE `contact_form_input` (
   `input_id` INT NOT NULL AUTO_INCREMENT ,
-  `date_to_id` INT NOT NULL,
+  `time_stamp` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   `contact_id` INT NOT NULL,
   `message` LONGTEXT,
   PRIMARY KEY (`input_id`),
   KEY `contact_id` (`contact_id`),
-  CONSTRAINT `date_to_id_ibfk_5` FOREIGN KEY (`date_to_id`) REFERENCES `date_to` (`date_to_id`),
   CONSTRAINT `contact_id_ibfk_2` FOREIGN KEY (`contact_id`) REFERENCES `contact_info` (`contact_id`)
 );
+INSERT INTO `contact_form_input` (`contact_id`, `message`)
+VALUES (1, 'message');
 
 DROP TABLE IF EXISTS `work_experience`;
 CREATE TABLE `work_experience` (

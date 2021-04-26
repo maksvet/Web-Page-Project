@@ -1,0 +1,90 @@
+Create query for Contact Us Form
+
+QUERY for Contact Us Form:
+POST QUERY
+GET QUERY
+UPDATE QUERY
+DELETE QUERY
+
+SELECT cfi.time_stamp, cfi.message, ci.name, ci.phone, ci.email
+FROM `FS1030IndividualProject`.contact_form_input cfi 
+	INNER JOIN `FS1030IndividualProject`.contact_info ci ON ( cfi.contact_id = ci.contact_id  )  
+
+Create queries for Resume:
+
+QUERY for Personal Info:
+POST QUERY
+GET QUERY
+UPDATE QUERY
+DELETE QUERY
+
+SELECT a.country, a.province, a.city, a.street_address, ci.name, ci.phone, ci.email
+FROM `FS1030IndividualProject`.personal_info pi 
+	INNER JOIN `FS1030IndividualProject`.address a ON ( pi.address_id = a.address_id  )  
+	INNER JOIN `FS1030IndividualProject`.contact_info ci ON ( pi.contact_id = ci.contact_id  )  
+
+QUERY for Skills:
+POST QUERY
+GET QUERY
+UPDATE QUERY
+DELETE QUERY
+
+SELECT cfi.time_stamp, cfi.message, ci.name, ci.phone, ci.email
+FROM `FS1030IndividualProject`.contact_form_input cfi 
+	INNER JOIN `FS1030IndividualProject`.contact_info ci ON ( cfi.contact_id = ci.contact_id  )  
+
+QUERY for Qualifications:
+POST QUERY
+GET QUERY
+UPDATE QUERY
+DELETE QUERY
+
+SELECT hq.qualification
+FROM `FS1030IndividualProject`.highlights_qualifications hq 
+
+
+QUERY for Work Experience:
+POST QUERY
+GET QUERY
+UPDATE QUERY
+DELETE QUERY
+
+SELECT we.position, dt.start_date, dt.finish_date, a.country, a.province, a.city, ci.name
+FROM work_experience we 
+	INNER JOIN date_to dt ON ( we.date_to_id = dt.date_to_id  )  
+	INNER JOIN address a ON ( we.address_id = a.address_id  )  
+	INNER JOIN contact_info ci ON ( we.contact_id = ci.contact_id  )  
+
+QUERY for Tasks:
+POST QUERY
+GET QUERY
+UPDATE QUERY
+DELETE QUERY
+
+SELECT t.task
+FROM work_experience we 
+	INNER JOIN task t ON ( we.experience_id = t.experience_id  )  
+
+QUERY for Education:
+POST QUERY
+GET QUERY
+UPDATE QUERY
+DELETE QUERY
+
+SELECT e.education_title, dt.start_date, dt.finish_date, i.name, a.country, a.province, a.city
+FROM education e 
+	INNER JOIN date_to dt ON ( e.date_to_id = dt.date_to_id  )  
+	INNER JOIN institution i ON ( e.institution_id = i.institution_id  )  
+		INNER JOIN address a ON ( i.address_id = a.address_id  )  
+
+QUERY for Traning courses:
+POST QUERY
+GET QUERY
+UPDATE QUERY
+DELETE QUERY
+
+SELECT tc.traning_title, dt.finish_date, i.name, a.country, a.province, a.city
+FROM traning_course tc 
+	INNER JOIN date_to dt ON ( tc.date_to_id = dt.date_to_id  )  
+	INNER JOIN institution i ON ( tc.institution_id = i.institution_id  )  
+		INNER JOIN address a ON ( i.address_id = a.address_id  )  
