@@ -10,10 +10,12 @@ const usrPath = path.resolve('data/users.json')
 const router = express.Router()
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcryptjs'
+//import { db } from 'database/connection.js'
 import { badRequest, objProps, objUserProps, message, validateItem, validateUser, validateString,
     validateEmail, validatePhone, validatePswd, returnMessage, authToken
 } from './helpFns.js'
-
+import dotenv from "dotenv";
+dotenv.config();
 // Files reading function
 async function readItems(path) {
     let json = await readFile(path)
