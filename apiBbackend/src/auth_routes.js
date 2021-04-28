@@ -10,7 +10,7 @@ const usrPath = path.resolve('data/users.json')
 const router = express.Router()
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcryptjs'
-//import { db } from 'database/connection.js'
+import { db } from '.././database/connection.js'
 import { badRequest, objProps, objUserProps, message, validateItem, validateUser, validateString,
     validateEmail, validatePhone, validatePswd, returnMessage, authToken
 } from './helpFns.js'
@@ -18,9 +18,12 @@ import dotenv from "dotenv";
 dotenv.config();
 // Files reading function
 async function readItems(path) {
+    const usersFullCredentials = await db.query(sql);
     let json = await readFile(path)
     return JSON.parse(json)
+    
 }
+
 
 
 //files writing function
@@ -28,6 +31,8 @@ async function writeAll(item, pathTo) {
     const json = JSON.stringify(item, null, 2)
     return writeFile(pathTo, json)
 }
+
+    
 
 //Route to create an entry when the user submits their contact form:
 router.post('/contact_form/entries', validateItem, validateString, validateEmail, validatePhone, returnMessage, async (req, res) => {
