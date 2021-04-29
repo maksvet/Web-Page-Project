@@ -6,7 +6,7 @@ const badRequest = (input, res) => {
 }
 
 //general request body validation 
-const objProps = ["name", "email", "phoneNumber", "content"]
+const objProps = ["name", "email", "phone", "content"]
 const message = {
     message: "validation error", 
     invalid: []

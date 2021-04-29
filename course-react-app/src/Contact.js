@@ -14,11 +14,11 @@ import React, { useState } from "react";
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
               },
-            body: JSON.stringify({name, email, phoneNumber, content, password})
+            body: JSON.stringify({name, email, phoneNumber, content })
         })
         const payload = await response.json()
         if (response.status >= 400) {
-          alert(`Oops! Error: ${payload.message} for fields: ${payload.invalid.join(",")}`)
+          alert(`Oops! Error: ${payload.error.message}`)
         } else {
             setName("")//clearing the input fields on submit
             setEmail("")
