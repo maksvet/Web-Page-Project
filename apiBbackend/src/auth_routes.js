@@ -155,20 +155,10 @@ router.post("/resume/personal", async (req, res) => {
   const sql3 = `INSERT INTO ${process.env.DBNAME}.address ( country, province, city, street_address ) VALUES ( '${country}', '${province}', '${city}', '${street_address}' );`
   const sql4 = `INSERT INTO ${process.env.DBNAME}.personal_info ( contact_id, address_id ) VALUES ( @last_id_contact_info, LAST_INSERT_ID() );`
   
-//   const sql2 = `INSERT INTO ${process.env.DBNAME}.highlights_qualifications (qualification) VALUES ('${qualification}');`
-      
-//   const sql3 = `INSERT INTO ${process.env.DBNAME}.contact_info ( name, phone, email ) VALUES ( '${name}', '${phone}', '${email}');`
-      
-//   const sql4 = `INSERT INTO ${process.env.DBNAME}.address
-//       ( country, province, city, street_address, contact_id ) VALUES ( '${country}', '${province}', '${city}', '${street_address}', LAST_INSERT_ID()); )`
-      
-//   const sql5 = `INSERT INTO ${process.env.DBNAME}.personal_info SELECT (contact_id, address_id) FROM address WHERE address_id = LAST_INSERT_ID();`
-//       //SELECT FRom ${process.env.DBNAME}.addres.contact_id WHERE contact_id = LAST_INSERT_ID();
-      //INSERT INTO PERSONAL
       
         try {
       await db.beginTransaction();
-         await db.query(sql1);
+      await db.query(sql1);
       await db.query(sql2);
       await db.query(sql3);
       const results = await db.query(sql4);
@@ -181,5 +171,61 @@ router.post("/resume/personal", async (req, res) => {
   }
   )
 
+
+  router.post("/resume/work_experience", async (req, res) => {
+    // Get payload
+    const {
+  //date_to
+  start_date,
+  finish_date,
+  
+  //contact_info
+  name,
+  phone,
+  email,
+  
+  //address
+  country,
+  province,
+  city,
+  street_address,
+  
+  //work_experience
+  position,
+  task
+  
+  
+  
+    } = req.body
+  
+  const sql5 = `INSERT INTO ${process.env.DBNAME}.date_to (start_date, finish_date) VALUES ('${start_date}', '${finish_date}');`
+  
+  const sql6 = `SET @date_to_date_to_id = LAST_INSERT_ID();`
+  
+  const sql7 = `INSERT INTO ${process.env.DBNAME}.contact_info ( name, phone, email ) VALUES ( '${name}', '${phone}', '${email}');`
+  
+  const sql8 = `SET @contact_info_contact_id = LAST_INSERT_ID();`
+  
+  const sql9 = `INSERT INTO ${process.env.DBNAME}.address ( country, province, city, street_address ) VALUES ( '${country}', '${province}', '${city}', '${street_address}' );`
+  
+  const sql10 = `INSERT INTO ${process.env.DBNAME}.work_experience (contact_id, address_id, date_to_id, position, task) VALUES (@contact_info_contact_id,  LAST_INSERT_ID(), @date_to_date_to_id, '${position}', '${task}');`
+  
+  
+   try {
+      await db.beginTransaction();
+      await db.query(sql5);
+      await db.query(sql6);
+      await db.query(sql7);
+      await db.query(sql8);
+      await db.query(sql9);
+      const results = await db.query(sql10);
+      await db.commit();
+      dbStatus(res, results);
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json(error);
+    }
+  }
+  )
 
 export default router
