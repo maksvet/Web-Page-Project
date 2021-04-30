@@ -4,6 +4,8 @@ import routes from './src/auth_routes.js'
 import dotenv from 'dotenv'
 import cors from "cors"
 dotenv.config()
+// try new
+import { db } from './database/connection.js'
 
 const app = express();
 const port = process.env.PORT
@@ -28,6 +30,13 @@ app.use((error, req, res, next) => {
         },
     });
 });
+
+app.get("/db", (req, res) => { 
+    db.query("SELECT * FROM portfolio", function (error, results, fields) {
+      if (error) throw error;
+      return res.status(200).send(results);
+    });
+  });
 
 export default app.listen(port, function () {
   console.log(`API server ready on http://localhost:${port}`);
