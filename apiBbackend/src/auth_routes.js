@@ -115,6 +115,8 @@ router.get('/contact_form/entries', authToken, async (req, res) => {
     }
 )
 
+
+
 //Route to get a specific submission when given an ID alongside a valid JWT:
 
 router.get('/contact_form/entries/:id', authToken, async (req, res) => {
@@ -125,4 +127,59 @@ router.get('/contact_form/entries/:id', authToken, async (req, res) => {
     }
      }
 )
+
+router.post("/resume/personal", async (req, res) => {
+    // Get payload
+    const {
+      //skill
+      //skill,
+      
+      //highlights_qualifications
+      //qualification,
+      
+      //contact_info
+      name,
+      phone,
+      email,
+  
+      //address
+      country,
+      province,
+      city,
+      street_address
+      
+    } = req.body
+  
+  const sql1 = `INSERT INTO ${process.env.DBNAME}.contact_info ( name, phone, email ) VALUES ( '${name}', '${phone}', '${email}' );`
+  const sql2 = `SET @last_id_contact_info = LAST_INSERT_ID();`
+  const sql3 = `INSERT INTO ${process.env.DBNAME}.address ( country, province, city, street_address ) VALUES ( '${country}', '${province}', '${city}', '${street_address}' );`
+  const sql4 = `INSERT INTO ${process.env.DBNAME}.personal_info ( contact_id, address_id ) VALUES ( @last_id_contact_info, LAST_INSERT_ID() );`
+  
+//   const sql2 = `INSERT INTO ${process.env.DBNAME}.highlights_qualifications (qualification) VALUES ('${qualification}');`
+      
+//   const sql3 = `INSERT INTO ${process.env.DBNAME}.contact_info ( name, phone, email ) VALUES ( '${name}', '${phone}', '${email}');`
+      
+//   const sql4 = `INSERT INTO ${process.env.DBNAME}.address
+//       ( country, province, city, street_address, contact_id ) VALUES ( '${country}', '${province}', '${city}', '${street_address}', LAST_INSERT_ID()); )`
+      
+//   const sql5 = `INSERT INTO ${process.env.DBNAME}.personal_info SELECT (contact_id, address_id) FROM address WHERE address_id = LAST_INSERT_ID();`
+//       //SELECT FRom ${process.env.DBNAME}.addres.contact_id WHERE contact_id = LAST_INSERT_ID();
+      //INSERT INTO PERSONAL
+      
+        try {
+      await db.beginTransaction();
+         await db.query(sql1);
+      await db.query(sql2);
+      await db.query(sql3);
+      const results = await db.query(sql4);
+      await db.commit();
+      dbStatus(res, results);
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json(error);
+    }
+  }
+  )
+
+
 export default router
