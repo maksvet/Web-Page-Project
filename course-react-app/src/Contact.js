@@ -3,9 +3,9 @@ import React, { useState } from "react";
   const Contact = (props) => {
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
-  const [phoneNumber, setPhoneNumber] = useState("")
+  const [phone, setPhone] = useState("")
   const [content, setContent] = useState("")
-  const [password] = "somepassword" // I left password for the API to be functional
+  //const [password] = "somepassword" // I left password for the API to be functional
   const formSubmit = async event => {
     event.preventDefault()
     const response = await fetch('http://localhost:3008/contact_form/entries', {
@@ -14,15 +14,16 @@ import React, { useState } from "react";
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
               },
-            body: JSON.stringify({name, email, phoneNumber, content })
+            body: JSON.stringify({name, email, phone, content })
         })
         const payload = await response.json()
+      alert(payload)
         if (response.status >= 400) {
-          alert(`Oops! Error: ${payload.error.message}`)
+          alert(`Oops! Error: ${payload.error}`)//fields require validation
         } else {
             setName("")//clearing the input fields on submit
             setEmail("")
-            setPhoneNumber("")
+            setPhone("")
             setContent("")
             alert(`Your message successfully submitted`)
         }
@@ -39,7 +40,7 @@ import React, { useState } from "react";
       <input type="email" id="email" name="email" placeholder="Your email..." required value={email} onChange={e => setEmail(e.target.value)}/>
 
       <label htmlFor="phoneNumber"></label>
-      <input type="phoneNumber" id="phoneNumber" name="phoneNumber" placeholder="Your phone number..." required value={phoneNumber} onChange={e => setPhoneNumber(e.target.value)}/>
+      <input type="phoneNumber" id="phoneNumber" name="phoneNumber" placeholder="Your phone number..." required value={phone} onChange={e => setPhone(e.target.value)}/>
 
       <label htmlFor="message"></label>
       <textarea id="message" name="message" placeholder="Your message..." required value={content} onChange={e => setContent(e.target.value)}></textarea>

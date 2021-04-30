@@ -61,8 +61,8 @@ const validateEmail = (req, res, next) => {
 //phone number validation: the only format accepted is 10 digits, no spaces, no characters
 const validatePhone = (req, res, next) => {
     const phoneno = /^\d{10}$/;
-    if(!req.body.phoneNumber.match(phoneno)){
-        message.invalid.push("phoneNumber")
+    if(!req.body.phone.match(phoneno)){
+        message.invalid.push("phone")
     }
     next()
 }

@@ -11,18 +11,7 @@ import { badRequest, objProps, objUserProps, message, validateItem, validateUser
 import dotenv from "dotenv";
 dotenv.config();
 
-
-
-// async function readItems(path) {
-//     let json = await readFile(path)
-//     return JSON.parse(json)
-    
-// }
-
-// async function writeAll(item, pathTo) {
-//     const json = JSON.stringify(item, null, 2)
-//     return writeFile(pathTo, json)
-// }
+//kept for developing only
 const dbStatus = (res, results) => {
     if (results.affectedRows !== 0)
       return res.status(200).json(`Database successfully updated!`);
@@ -58,6 +47,10 @@ router.post('/contact_form/entries', validateItem, validateString, validateEmail
 //Route to create a user, saving users in array for now
 
 router.post('/users', validateUser, validateString, validatePswd, validateEmail, returnMessage, async (req, res) => {
+    const emailInUse = await db.query(`SELECT ci.email FROM ${process.env.DBNAME}.admin a INNER JOIN ${process.env.DBNAME}.contact_info ci ON ( a.contact_id = ci.contact_id  )   WHERE ci.email = '${req.body.email}';`)
+    if (emailInUse) {
+        return res.status(403).json("Email address already in use")
+    }
     req.body.admin_id = uuidv4()
     req.body.password = bcrypt.hashSync(req.body.password, 10)
     const {
@@ -69,7 +62,7 @@ router.post('/users', validateUser, validateString, validatePswd, validateEmail,
         password
     } = req.body
     
-    //users.push(req.body)
+   
     try {
         await db.beginTransaction();
         await db.query(`INSERT INTO ${process.env.DBNAME}.contact_info ( name, phone, email ) VALUES ( '${name}', '${phone}', '${email}')`);
@@ -81,28 +74,28 @@ router.post('/users', validateUser, validateString, validatePswd, validateEmail,
         return res.status(500).json(error);
       }
    
-    //return res.status(201).json(req.body)
+    
 })
 
-//Route to log a registered user in to create a JWT (JSON Web Token) token:
+//Route to login registered user to create a JWT (JSON Web Token) token:
 
 
 router.post('/auth', async (req, res, error) => {
-    
-    const users = await db.query(`SELECT a.password, a.contact_id, ci.email FROM ${process.env.DBNAME}.admin a INNER JOIN ${process.env.DBNAME}.contact_info ci ON ( a.contact_id = ci.contact_id)`)
-    
-    const emailFound = users.find(searchObj => searchObj.email == req.body.email)// I used email to find users because request body doesnt have ID originally
-        if (!emailFound){
+   
+    const request = await req.body
+    const users = await db.query(`SELECT a.password, a.contact_id, ci.email FROM ${process.env.DBNAME}.admin a INNER JOIN ${process.env.DBNAME}.contact_info ci ON ( a.contact_id = ci.contact_id) WHERE ci.email = '${request.email}';`)
+        
+    if (!users){
             return res.status(403).json("incorrect email provided")
         }
-    const pswdValid = bcrypt.compareSync(req.body.password, emailFound.password)//Used sync
+    const pswdValid = await bcrypt.compare(request.password, users[0].password)
     if (!pswdValid){
         return res.status(403).json("incorrect credentials provided")
         }
         
     const user = ({
-    email : req.body.email,
-    password : req.body.password
+    email : request.email,
+    password : users[0].password
     })
     
     const token = jwt.sign( user, process.env.TOKEN_SECRET, {
@@ -117,7 +110,6 @@ router.post('/auth', async (req, res, error) => {
 
 
 router.get('/contact_form/entries', authToken, async (req, res) => {
-    //const entries = await readItems(entrPath)
     const entries = await db.query(`SELECT cfi.input_id, cfi.time_stamp, cfi.content, ci.name, ci.phone, ci.email FROM ${process.env.DBNAME}.contact_form_input cfi INNER JOIN ${process.env.DBNAME}.contact_info ci ON ( cfi.contact_id = ci.contact_id  )    `)
     res.status(200).send(entries)
     }
@@ -126,15 +118,11 @@ router.get('/contact_form/entries', authToken, async (req, res) => {
 //Route to get a specific submission when given an ID alongside a valid JWT:
 
 router.get('/contact_form/entries/:id', authToken, async (req, res) => {
-    const entries = await readItems(entrPath)
+    const entries = await db.query(`SELECT cfi.input_id, cfi.time_stamp, cfi.content, ci.name, ci.phone, ci.email FROM ${process.env.DBNAME}.contact_form_input cfi INNER JOIN ${process.env.DBNAME}.contact_info ci ON ( cfi.contact_id = ci.contact_id  ) WHERE cfi.input_id = '${req.params.id}' `)
+    res.status(200).send(entries)
     if (!entries){
         return {message: `no entries found`}
     }
-    const idFound = entries.find(searchObj => searchObj.id == req.params.id)
-    if (!idFound){
-        return res.status(400).json({message: `entry ${req.params.id} not found`})
-    }
-    return res.status(200).send(idFound)
-    }
+     }
 )
 export default router
