@@ -25,8 +25,8 @@ import React, { useState } from "react";
           <div id="Entries">
             {entries.map((item, key) => (
               <li key={item.id}>
-                ID: {item.id}; Name: {item.name}; Email: {item.email}; Phone
-                number: {item.phoneNumber}; Message: {item.content}
+                ID: {item.input_id}; Time: {item.time_stamp}; Name: {item.name}; Email: {item.email}; Phone
+                number: {item.phone}; Message: {item.content}
               </li>
             ))}
           </div>

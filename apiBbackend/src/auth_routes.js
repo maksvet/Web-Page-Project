@@ -1,95 +1,108 @@
 import express from 'express'
 import { v4 as uuidv4 } from 'uuid'
 import util from 'util'
-import fs from 'fs'
-import path from 'path'
-const readFile = util.promisify(fs.readFile)
-const writeFile = util.promisify(fs.writeFile)
-const entrPath = path.resolve('data/entries.json')
-const usrPath = path.resolve('data/users.json')
 const router = express.Router()
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcryptjs'
+import { db } from '.././database/connection.js'
 import { badRequest, objProps, objUserProps, message, validateItem, validateUser, validateString,
     validateEmail, validatePhone, validatePswd, returnMessage, authToken
 } from './helpFns.js'
+import dotenv from "dotenv";
+dotenv.config();
 
-// Files reading function
-async function readItems(path) {
-    let json = await readFile(path)
-    return JSON.parse(json)
-}
-
-
-//files writing function
-async function writeAll(item, pathTo) {
-    const json = JSON.stringify(item, null, 2)
-    return writeFile(pathTo, json)
-}
+//kept for developing only
+const dbStatus = (res, results) => {
+    if (results.affectedRows !== 0)
+      return res.status(200).json(`Database successfully updated!`);
+    return res.status(400).json(`Error: database not updated!!`);
+  };
+    
 
 //Route to create an entry when the user submits their contact form:
 router.post('/contact_form/entries', validateItem, validateString, validateEmail, validatePhone, returnMessage, async (req, res) => {
-    req.body.id = uuidv4()
-    fs.access(entrPath, fs.F_OK, (err) => {// couldn't think of better way to check if file is present
-        if (err) {
-            const entries = []
-            const requestOrganizer = ({ id, name, email, phoneNumber, content }) => ({ id, name, email, phoneNumber, content })// I kept this only to keep formatig of request body as in instuctions
-            entries.push(requestOrganizer(req.body))
-            writeAll(entries, entrPath)
-            return res.status(201).json(requestOrganizer(req.body))
-        }   
-    })
-    const entries = await readItems(entrPath)
-    const requestOrganizer = ({ id, name, email, phoneNumber, content }) => ({ id, name, email, phoneNumber, content })//used destructuring for keeping order of object
-    entries.push(requestOrganizer(req.body))
-    writeAll(entries, entrPath)
-    return res.status(201).json(requestOrganizer(req.body))
-})
+    
+    
+    req.body.input_id = uuidv4()
+    const {
+        name,
+        phone,
+        email,
+
+        input_id,
+        content
+    } = req.body
+
+    try {
+        await db.beginTransaction();
+        await db.query(`INSERT INTO ${process.env.DBNAME}.contact_info ( name, phone, email ) VALUES ( '${name}', '${phone}', '${email}')`);
+        const results = await db.query(`INSERT INTO ${process.env.DBNAME}.contact_form_input (input_id, content, contact_id) VALUES ( '${input_id}', '${content}', LAST_INSERT_ID());`)
+        await db.commit();
+        dbStatus(res, results);
+      } catch (error) {
+        console.log(error);
+        return res.status(500).json(error);
+      }})
 
 //Route to create a user, saving users in array for now
 
 router.post('/users', validateUser, validateString, validatePswd, validateEmail, returnMessage, async (req, res) => {
-    req.body.id = uuidv4()
-    fs.access(usrPath, fs.F_OK, (err) => {
-        if (err) {
-            const users = []
-            req.body.password = bcrypt.hashSync(req.body.password, 10)
-            users.push(req.body)
-            const requestFilter = ({ id, name, email }) => ({ id, name, email })
-
-            writeAll(users, usrPath)
-            return res.status(201).json(requestFilter(req.body))
-        }   
-    })
-    const users = await readItems(usrPath)
+    const emailInUse = await db.query(`SELECT ci.email FROM ${process.env.DBNAME}.admin a INNER JOIN ${process.env.DBNAME}.contact_info ci ON ( a.contact_id = ci.contact_id  )   WHERE ci.email = '${req.body.email}';`)
+    if (emailInUse) {
+        return res.status(403).json("Email address already in use")
+    }
+    req.body.admin_id = uuidv4()
     req.body.password = bcrypt.hashSync(req.body.password, 10)
-    console.log(req.body.password)
-    users.push(req.body)
-    const requestFilter = ({ id, name, email }) => ({ id, name, email })// I kept this only to keep formatig of request body as in instuctions
-    writeAll(users, usrPath)
-    return res.status(201).json(requestFilter(req.body))
+    const {
+        name,
+        phone,
+        email,
+
+        admin_id,
+        password
+    } = req.body
+    
+   
+    try {
+        await db.beginTransaction();
+        await db.query(`INSERT INTO ${process.env.DBNAME}.contact_info ( name, phone, email ) VALUES ( '${name}', '${phone}', '${email}')`);
+        const results = await db.query(`INSERT INTO ${process.env.DBNAME}.admin (admin_id, password, contact_id) VALUES ( '${admin_id}', '${password}', LAST_INSERT_ID());`)
+        await db.commit();
+        dbStatus(res, results);
+      } catch (error) {
+        console.log(error);
+        return res.status(500).json(error);
+      }
+   
+    
 })
 
-//Route to log a registered user in to create a JWT (JSON Web Token) token:
+//Route to login registered user to create a JWT (JSON Web Token) token:
+
 
 router.post('/auth', async (req, res, error) => {
-    const users = await readItems(usrPath)//reject(new error)
-    const emailFound = users.find(searchObj => searchObj.email == req.body.email)// I used email to find users because request body doesnt have ID originally
-        if (!emailFound){
+   
+    const request = await req.body
+    const users = await db.query(`SELECT a.password, a.contact_id, ci.email FROM ${process.env.DBNAME}.admin a INNER JOIN ${process.env.DBNAME}.contact_info ci ON ( a.contact_id = ci.contact_id) WHERE ci.email = '${request.email}';`)
+        
+    if (!users){
             return res.status(403).json("incorrect email provided")
         }
-    const pswdValid = bcrypt.compareSync(req.body.password, emailFound.password)//Used sync
+    const pswdValid = await bcrypt.compare(request.password, users[0].password)
     if (!pswdValid){
         return res.status(403).json("incorrect credentials provided")
         }
+        
     const user = ({
-    email : req.body.email,
-    password : req.body.password
+    email : request.email,
+    password : users[0].password
     })
+    
     const token = jwt.sign( user, process.env.TOKEN_SECRET, {
         expiresIn: 9999
         }
     )
+    
     return res.status(200).send({ token: token })
 })
 
@@ -97,7 +110,7 @@ router.post('/auth', async (req, res, error) => {
 
 
 router.get('/contact_form/entries', authToken, async (req, res) => {
-    const entries = await readItems(entrPath)
+    const entries = await db.query(`SELECT cfi.input_id, cfi.time_stamp, cfi.content, ci.name, ci.phone, ci.email FROM ${process.env.DBNAME}.contact_form_input cfi INNER JOIN ${process.env.DBNAME}.contact_info ci ON ( cfi.contact_id = ci.contact_id  )    `)
     res.status(200).send(entries)
     }
 )
@@ -105,15 +118,11 @@ router.get('/contact_form/entries', authToken, async (req, res) => {
 //Route to get a specific submission when given an ID alongside a valid JWT:
 
 router.get('/contact_form/entries/:id', authToken, async (req, res) => {
-    const entries = await readItems(entrPath)
+    const entries = await db.query(`SELECT cfi.input_id, cfi.time_stamp, cfi.content, ci.name, ci.phone, ci.email FROM ${process.env.DBNAME}.contact_form_input cfi INNER JOIN ${process.env.DBNAME}.contact_info ci ON ( cfi.contact_id = ci.contact_id  ) WHERE cfi.input_id = '${req.params.id}' `)
+    res.status(200).send(entries)
     if (!entries){
         return {message: `no entries found`}
     }
-    const idFound = entries.find(searchObj => searchObj.id == req.params.id)
-    if (!idFound){
-        return res.status(400).json({message: `entry ${req.params.id} not found`})
-    }
-    return res.status(200).send(idFound)
-    }
+     }
 )
 export default router
