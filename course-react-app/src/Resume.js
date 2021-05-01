@@ -2,7 +2,14 @@ import React, { useState, useEffect } from "react";
 
 
 const Resume = () => {
-  const [resume, setResume] = useState([]);
+  const [resume, setResume] = useState({
+    personal_info : [],
+    skills: [],
+    qualifications: [],
+    work_experience: [],
+    education: [],
+    training: []
+});
   
 
   useEffect(() => {
@@ -13,14 +20,17 @@ const Resume = () => {
     }
     fetchData();
   }, []);
+
+  console.log(resume)
+
     return (
         
       <article>
 
 <h2>
-<ul className="skills">
+<ul className="name">
         <div id="resume">
-            {resume.map((item, key) => (
+            {resume.personal_info.map((item, key) => (
                 <li key={item.id} style={{ listStyle: "none" }}>
                 {item.name}
                 </li>
@@ -28,20 +38,62 @@ const Resume = () => {
         </div>
 </ul>
 </h2>
-
-
-  <ul className="skills">
+<ul className="personal_info">
         <div id="resume">
-            {resume.map((item, key) => (
-                <li key={item.id} style={{ listStyle: "none" }}>
-                Phone: {item.phone}; Email: {item.email}; Address: {item.street_address}, {item.city}, {item.province}, {item.country}
+            {resume.personal_info.map((item, key) => (
+                <li key={item.name} style={{ listStyle: "none" }}>
+                Phone: {item.phone}, Email: {item.email}, Address: {item.street_address}, {item.city}, {item.province}, {item.country}
                 </li>
             ))}
         </div>
-    <li className="resume">Energetic, hardworking, punctual, creative and able to work at various shifts.</li>
+</ul>
+<h4>HIGHLITES OF QUALIFICATIONS:</h4>
+<ul className="skills">
+        <div id="resume">
+            {resume.skills.map((item, key) => (
+                <li key={item.id} style={{ listStyle: "none" }}>
+                {item.skill}
+                </li>
+            ))}
+            {resume.qualifications.map((item, key) => (
+                <li key={item.id} style={{ listStyle: "none" }}>
+                {item.qualification}
+                </li>
+            ))}
+        </div>
+</ul>
+<h4>WORK EXPERIENCE:</h4>
+<ul className="skills">
+        <div id="resume">
+            {resume.work_experience.map((item, key) => (
+                <li key={item.id} style={{ listStyle: "none" }}>
+                {item.position}. {item.start_date} - {item.finish_date}. {item.name}, {item.city}, {item.province}, {item.country}.<br/>
+                {item.task}<br/>
+                </li>
+            ))}
+        </div>
+</ul>
+<h4>EDUCATION:</h4>
+<ul className="skills">
+        <div id="resume">
+            {resume.education.map((item, key) => (
+                <li key={item.id} style={{ listStyle: "none" }}>
+                {item.education_title}. {item.start_date} - {item.finish_date}. {item.name}, {item.city}, {item.province}, {item.country}.<br/>
+                </li>
+            ))}
+        </div>
+</ul>
+<h4>TRAINING COURSERS:</h4>
+<ul className="skills">
+        <div id="resume">
+            {resume.training.map((item, key) => (
+                <li key={item.id} style={{ listStyle: "none" }}>
+                {item.traning_title}. {item.start_date} - {item.finish_date}. {item.name}, {item.city}, {item.province}, {item.country}.<br/>
+                </li>
+            ))}
+        </div>
 </ul>
 
-  <h3>HIGHLITES OF QUALIFICATIONS:</h3>
 </article>
     );
   }

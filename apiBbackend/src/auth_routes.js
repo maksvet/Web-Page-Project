@@ -129,10 +129,23 @@ router.get('/contact_form/entries/:id', authToken, async (req, res) => {
 )
 
 router.get('/resume', async (req, res) => {
-    const resume = await db.query(`SELECT a.street_address, a.city, a.province, a.country, ci.name, ci.phone, ci.email
+    const resume = {}
+
+
+
+    resume.personal_info = await db.query(`SELECT a.street_address, a.city, a.province, a.country, ci.name, ci.phone, ci.email
     FROM ${process.env.DBNAME}.personal_info pi 
         INNER JOIN ${process.env.DBNAME}.address a ON ( pi.address_id = a.address_id  ) INNER JOIN ${process.env.DBNAME}.contact_info ci ON ( pi.contact_id = ci.contact_id  ) AND ci.contact_id = 2 GROUP BY a.street_address, a.city, a.province, a.country, ci.name, ci.phone, ci.email `)
-    res.status(200).send(resume)
+    resume.skills = await db.query(`SELECT skill FROM ${process.env.DBNAME}.skill`)
+    resume.qualifications = await db.query(`SELECT qualification FROM ${process.env.DBNAME}.highlights_qualifications`)
+    resume.work_experience = await db.query(`SELECT we.position, we.task, dt.start_date, dt.finish_date, a.country, a.province, a.city, ci.name
+    FROM ${process.env.DBNAME}.work_experience we INNER JOIN ${process.env.DBNAME}.date_to dt ON ( we.date_to_id = dt.date_to_id  ) INNER JOIN ${process.env.DBNAME}.address a ON ( we.address_id = a.address_id  ) INNER JOIN ${process.env.DBNAME}.contact_info ci ON ( we.contact_id = ci.contact_id  ) AND we. experience_id <= 3 GROUP BY we.position, we.task, dt.start_date, dt.finish_date, a.country, a.province, a.city, ci.name`)
+    resume.education = await db.query(`SELECT e.education_title, dt.start_date, dt.finish_date, ci.name, a.country, a.province, a.city
+    FROM ${process.env.DBNAME}.education e INNER JOIN ${process.env.DBNAME}.date_to dt ON ( e.date_to_id = dt.date_to_id  ) INNER JOIN ${process.env.DBNAME}.contact_info ci ON ( e.contact_id = ci.contact_id  ) INNER JOIN ${process.env.DBNAME}.address a ON ( e.address_id = a.address_id  ) AND e.education_id <= 2 GROUP BY e.education_title, dt.start_date, dt.finish_date, ci.name, a.country, a.province, a.city`)
+    resume.training = await db.query(`SELECT e.traning_title, dt.start_date, dt.finish_date, ci.name, a.country, a.province, a.city
+    FROM ${process.env.DBNAME}.education e INNER JOIN ${process.env.DBNAME}.date_to dt ON ( e.date_to_id = dt.date_to_id  ) INNER JOIN ${process.env.DBNAME}.contact_info ci ON ( e.contact_id = ci.contact_id  ) INNER JOIN ${process.env.DBNAME}.address a ON ( e.address_id = a.address_id  ) AND e.education_id >= 3 GROUP BY e.traning_title, dt.start_date, dt.finish_date, ci.name, a.country, a.province, a.city`)
+    
+        res.status(200).send(resume)
      }
 )
 
