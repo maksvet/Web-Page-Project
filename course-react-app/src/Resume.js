@@ -14,21 +14,34 @@ const Resume = () => {
     fetchData();
   }, []);
     return (
+        
       <article>
 
-<h2>Resume</h2>
-
-  <h3>HIGHLITES OF QUALIFICATIONS:</h3>
-  <ul class="skills">
-        <div id="Entries">
+<h2>
+<ul className="skills">
+        <div id="resume">
             {resume.map((item, key) => (
-                <li key={item.id}>
-                {item.name}; Phone {item.phone}; Email: {item.email}; Address: {item.street_address};
+                <li key={item.id} style={{ listStyle: "none" }}>
+                {item.name}
                 </li>
             ))}
         </div>
-    <li class="resume">Energetic, hardworking, punctual, creative and able to work at various shifts.</li>
 </ul>
+</h2>
+
+
+  <ul className="skills">
+        <div id="resume">
+            {resume.map((item, key) => (
+                <li key={item.id} style={{ listStyle: "none" }}>
+                Phone: {item.phone}; Email: {item.email}; Address: {item.street_address}, {item.city}, {item.province}, {item.country}
+                </li>
+            ))}
+        </div>
+    <li className="resume">Energetic, hardworking, punctual, creative and able to work at various shifts.</li>
+</ul>
+
+  <h3>HIGHLITES OF QUALIFICATIONS:</h3>
 </article>
     );
   }

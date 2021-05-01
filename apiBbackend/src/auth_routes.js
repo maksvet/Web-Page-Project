@@ -129,9 +129,9 @@ router.get('/contact_form/entries/:id', authToken, async (req, res) => {
 )
 
 router.get('/resume', async (req, res) => {
-    const resume = await db.query(`SELECT a.street_address, ci.name, ci.phone, ci.email
+    const resume = await db.query(`SELECT a.street_address, a.city, a.province, a.country, ci.name, ci.phone, ci.email
     FROM ${process.env.DBNAME}.personal_info pi 
-        INNER JOIN ${process.env.DBNAME}.address a ON ( pi.address_id = a.address_id  ) INNER JOIN ${process.env.DBNAME}.contact_info ci ON ( pi.contact_id = ci.contact_id  ) AND ci.contact_id = 2 GROUP BY a.street_address, ci.name, ci.phone, ci.email `)
+        INNER JOIN ${process.env.DBNAME}.address a ON ( pi.address_id = a.address_id  ) INNER JOIN ${process.env.DBNAME}.contact_info ci ON ( pi.contact_id = ci.contact_id  ) AND ci.contact_id = 2 GROUP BY a.street_address, a.city, a.province, a.country, ci.name, ci.phone, ci.email `)
     res.status(200).send(resume)
      }
 )
