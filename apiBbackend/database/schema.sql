@@ -21,7 +21,7 @@ CREATE TABLE `skill` (
 );
 INSERT INTO `skill` (`skill`)
 VALUES ('Tools/Methodologies: Visual Studio Code, Git, Node JS, Express, React, MySQL. \n
-(Operating Systems: Windows, MAC OS. \n
+Operating Systems: Windows, MAC OS. \n
 Other software: Adobe Photoshop, Autodesk AutoCAD, Gravograph CNC software, SAP, Microsoft Office Tools.');
 
 DROP TABLE IF EXISTS `highlights_qualifications`;
@@ -115,52 +115,41 @@ CREATE TABLE `personal_info` (
 INSERT INTO `personal_info` (`address_id`, `contact_id`)
 VALUES (1, 2);
 
-DROP TABLE IF EXISTS `institution`;
-CREATE TABLE `institution` (
-  `institution_id` INT NOT NULL AUTO_INCREMENT ,
-  `contact_id` INT NOT NULL,
-  `address_id` INT NOT NULL,
-  PRIMARY KEY (`institution_id`),
-  KEY `address_id` (`address_id`),
-  KEY `contact_id` (`contact_id`),
-  CONSTRAINT `address_id_ibfk_2` FOREIGN KEY (`address_id`) REFERENCES `address` (`address_id`),
-  CONSTRAINT `contact_id_ibfk_5` FOREIGN KEY (`contact_id`) REFERENCES `contact_info` (`contact_id`)
-);
-INSERT INTO `institution` (`contact_id`, `address_id`)
-VALUES (5, 4),
-(6, 5),
-(7, 6),
-(8, 7);
+
 
 DROP TABLE IF EXISTS `education`;
 CREATE TABLE `education` (
-  `education_id` INT NOT NULL AUTO_INCREMENT ,
-  `education_title` VARCHAR(255) NOT NULL,
-  `date_to_id` INT NOT NULL,
-  `institution_id` INT NOT NULL,
+  `education_id` int NOT NULL AUTO_INCREMENT,
+  `education_title` varchar(255) DEFAULT NULL,
+  `traning_title` varchar(255) DEFAULT NULL,
+  `date_to_id` int NOT NULL,
+  `contact_id` int NOT NULL,
+  `address_id` int NOT NULL,
   PRIMARY KEY (`education_id`),
   KEY `date_to_id` (`date_to_id`),
-  KEY `institution_id` (`institution_id`),
-  CONSTRAINT `date_to_id_ibfk_2` FOREIGN KEY (`date_to_id`) REFERENCES `date_to` (`date_to_id`),
-  CONSTRAINT `institution_id_ibfk_1` FOREIGN KEY (`institution_id`) REFERENCES `institution` (`institution_id`)
+  KEY `address_id` (`address_id`),
+  KEY `contact_id` (`contact_id`),
+  CONSTRAINT `address_id_ibfk_2` FOREIGN KEY (`address_id`) REFERENCES `address` (`address_id`),
+  CONSTRAINT `contact_id_ibfk_5` FOREIGN KEY (`contact_id`) REFERENCES `contact_info` (`contact_id`),
+  CONSTRAINT `date_to_id_ibfk_2` FOREIGN KEY (`date_to_id`) REFERENCES `date_to` (`date_to_id`)
 );
-INSERT INTO `education` (`education_title`, `date_to_id`, `institution_id`)
-VALUES ('Cerificate in Full-Stack Web Developement.', 4, 1),
-('Diploma in Aircraft Mechanics.', 7, 4);
+INSERT INTO `education` VALUES (1,'Cerificate in Full-Stack Web Developement.',NULL,4,5,4),(2,'Diploma in Aircraft Mechanics.',NULL,7,6,5),(3,NULL,'Mathematics for Computer Science.',5,7,6),(4,NULL,'Contract Law: From Trust to Promise to Contract.',6,8,7);
+
 
 
 DROP TABLE IF EXISTS `contact_form_input`;
 CREATE TABLE `contact_form_input` (
-  `input_id` INT NOT NULL AUTO_INCREMENT ,
+  `input_id` VARCHAR (255) NOT NULL ,
   `time_stamp` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   `contact_id` INT NOT NULL,
-  `message` LONGTEXT,
+  `content` LONGTEXT,
   PRIMARY KEY (`input_id`),
   KEY `contact_id` (`contact_id`),
   CONSTRAINT `contact_id_ibfk_2` FOREIGN KEY (`contact_id`) REFERENCES `contact_info` (`contact_id`)
 );
-INSERT INTO `contact_form_input` (`contact_id`, `message`)
-VALUES (2, 'test message');
+INSERT INTO `contact_form_input` (`input_id`, `contact_id`, `content`)
+VALUES ("xxx60e26-aeca-4a5f-9f20-f866995d5247", 2, 'test message'),
+("XXXXe26-aeca-4a5f-9f20-f866995d5247", 1, 'second message');
 
 DROP TABLE IF EXISTS `work_experience`;
 CREATE TABLE `work_experience` (
@@ -169,6 +158,7 @@ CREATE TABLE `work_experience` (
   `date_to_id` INT NOT NULL,
   `address_id` INT NOT NULL,
   `contact_id` INT NOT NULL,
+  `task` LONGTEXT NOT NULL,
   PRIMARY KEY (`experience_id`),
   KEY `date_to_id` (`date_to_id`),
   KEY `address_id` (`address_id`),
@@ -177,49 +167,16 @@ CREATE TABLE `work_experience` (
   CONSTRAINT `address_id_ibfk_3` FOREIGN KEY (`address_id`) REFERENCES `address` (`address_id`),
   CONSTRAINT `contact_id_ibfk_3` FOREIGN KEY (`contact_id`) REFERENCES `contact_info` (`contact_id`)
 );
-INSERT INTO `work_experience` (`position`, `date_to_id`, `address_id`, `contact_id`)
-VALUES ('Quality Inspector, Repair and Overhaul Department', 1, 2, 3),
-('Fitter, Repair and Overhaul Department', 2, 2, 3),
-('Aircraft components technician', 3, 3, 4);
-
-DROP TABLE IF EXISTS `task`;
-CREATE TABLE `task` (
-  `task_id` INT NOT NULL AUTO_INCREMENT ,
-  `task` LONGTEXT NOT NULL,
-  `experience_id` INT NOT NULL,
-  PRIMARY KEY (`task_id`),
-	KEY `experience_id` (`experience_id`),
-	CONSTRAINT `experience_id_ibfk_1` FOREIGN KEY (`experience_id`) REFERENCES `work_experience` (`experience_id`)
-);
-
-INSERT INTO `task` (`task`, `experience_id`)
-VALUES ('- Performing inspections of aircraft landing gears and relating components. \n
+INSERT INTO `work_experience` (`position`, `date_to_id`, `address_id`, `contact_id`, `task`)
+VALUES ('Quality Inspector, Repair and Overhaul Department', 1, 2, 3, '- Performing inspections of aircraft landing gears and relating components. \n
 - Assessment and approval of work performed by fitters during overhauls and repairs. \n
 - Responsible for product compliance to the relevant specifications. \n
 - Issuing Shop Certification Authority maintenance release TC Form One. \n
-- Preparing Failure Analysis Reports for components returning to service.', 1),
-('- Servicing of landing gears and landing gears components. \n
+- Preparing Failure Analysis Reports for components returning to service.'),
+('Fitter, Repair and Overhaul Department', 2, 2, 3, '- Servicing of landing gears and landing gears components. \n
 - Working with in-process documentation and technical database. \n
-- Collaborating with engineers in preparation of repair layouts', 2),
-('- mOverhauling and repairing aircrafts components. \n
+- Collaborating with engineers in preparation of repair layouts'),
+('Aircraft components technician', 3, 3, 4, '- Overhauling and repairing aircrafts components. \n
 - High speed rotation components balancing. \n
 - Special tools designing and fabricating. \n
-- Cooperating in Scientific Research and Experimental Development program.', 3)
-;
- 
-DROP TABLE IF EXISTS `traning_course`;
-CREATE TABLE `traning_course` (
-  `traning_course_id` INT NOT NULL AUTO_INCREMENT ,
-  `date_to_id` INT NOT NULL,
-  `institution_id` INT NOT NULL,
-  `traning_title` VARCHAR(255) NOT NULL,
-  PRIMARY KEY (`traning_course_id`),
-  KEY `date_to_id` (`date_to_id`),
-  KEY `institution_id` (`institution_id`),
-  CONSTRAINT `date_to_id_ibfk_4` FOREIGN KEY (`date_to_id`) REFERENCES `date_to` (`date_to_id`),
-  CONSTRAINT `institution_id_ibfk_2` FOREIGN KEY (`institution_id`) REFERENCES `institution` (`institution_id`)
-);
-
-INSERT INTO `traning_course` (`date_to_id`, `institution_id`, `traning_title`)
-VALUES (5, 2, 'Mathematics for Computer Science.'),
-(6, 3, 'Contract Law: From Trust to Promise to Contract.');
+- Cooperating in Scientific Research and Experimental Development program.');
