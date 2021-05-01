@@ -1,20 +1,35 @@
-import React, { Component } from "react";
- 
-class Portfolio extends Component {
-  render() {
+import React, { useState, useEffect } from "react";
+
+
+const Portfolio = () => {
+  const [portfolio, setPortfolio] = useState([]);
+  
+
+  useEffect(() => {
+    async function fetchData() {
+      const res = await fetch("http://localhost:3008/portfolio");
+      res.json().then((res) => setPortfolio(res));
+      //.catch((err) => setErrors(err));
+    }
+    fetchData();
+  }, []);
+
     return (
-      <main>
-  <h2>Portfolio</h2>
-
-  <p> Personal projects <br/>
-    <a href="https://github.com/maksvet">Maksim's GitHub</a><br/>
-    Codewars <br/>
-    <a href="hhttps://www.codewars.com/users/maksvet">Maksim's Codewars profile</a> <br/>
-
-</p>
-</main>
+        
+      <article>
+<h2>Portfolio links</h2>
+<h4>
+<ul className="name">
+        <div id="resume">
+            {portfolio.map((item, key) => (
+                <li key={item.id} style={{ listStyle: "none" }}>
+                <a href="{item.link}">{item.description}</a> 
+                </li>
+            ))}
+        </div>
+</ul>
+</h4>
+</article>
     );
   }
-}
- 
 export default Portfolio;
