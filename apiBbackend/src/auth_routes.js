@@ -128,6 +128,15 @@ router.get('/contact_form/entries/:id', authToken, async (req, res) => {
      }
 )
 
+//Portfolio GET
+router.get('/portfolio', async (req, res) => {
+    const entries = await db.query(`SELECT p.link, p.description FROM ${process.env.DBNAME}.portfoliio p GROUP BY p.link, p.description `)
+    res.status(200).send(entries)
+     }
+)
+
+
+//Resume GET
 router.get('/resume', async (req, res) => {
     const resume = {}
 

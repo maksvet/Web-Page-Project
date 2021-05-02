@@ -20,9 +20,9 @@ CREATE TABLE `skill` (
   PRIMARY KEY (`skill_id`)
 );
 INSERT INTO `skill` (`skill`)
-VALUES ('Tools/Methodologies: Visual Studio Code, Git, Node JS, Express, React, MySQL. \n
-Operating Systems: Windows, MAC OS. \n
-Other software: Adobe Photoshop, Autodesk AutoCAD, Gravograph CNC software, SAP, Microsoft Office Tools.');
+VALUES ('Tools/Methodologies: Visual Studio Code, Git, Node JS, Express, React, MySQL.'),
+('Operating Systems: Windows, MAC OS.'),
+('Other software: Adobe Photoshop, Autodesk AutoCAD, Gravograph CNC software, SAP, Microsoft Office Tools.');
 
 DROP TABLE IF EXISTS `highlights_qualifications`;
 CREATE TABLE `highlights_qualifications` (
@@ -31,11 +31,11 @@ CREATE TABLE `highlights_qualifications` (
   PRIMARY KEY (`qualification_id`)
 );
 INSERT INTO `highlights_qualifications` (`qualification`)
-VALUES ('Shop Certification Authority maintenance release qualified. \n
-Proficient in AS9100, ISO9001 and other relevant aerospace industry standards. \n
-Experienced in working with precision measuring tools. \n
-Skillful in testing hydraulic, pneumatic and electrical components. \n
-Specialize in repair & overhaul of aircrafts components.');
+VALUES ('Shop Certification Authority maintenance release qualified.'),
+('Proficient in AS9100, ISO9001 and other relevant aerospace industry standards.'),
+('Experienced in working with precision measuring tools.'),
+('Skillful in testing hydraulic, pneumatic and electrical components.'),
+('Specialize in repair & overhaul of aircrafts components.');
 
 DROP TABLE IF EXISTS `date_to`;
 CREATE TABLE `date_to` (
@@ -133,7 +133,7 @@ CREATE TABLE `education` (
   CONSTRAINT `contact_id_ibfk_5` FOREIGN KEY (`contact_id`) REFERENCES `contact_info` (`contact_id`),
   CONSTRAINT `date_to_id_ibfk_2` FOREIGN KEY (`date_to_id`) REFERENCES `date_to` (`date_to_id`)
 );
-INSERT INTO `education` VALUES (1,'Cerificate in Full-Stack Web Developement.',NULL,4,5,4),(2,'Diploma in Aircraft Mechanics.',NULL,7,6,5),(3,NULL,'Mathematics for Computer Science.',5,7,6),(4,NULL,'Contract Law: From Trust to Promise to Contract.',6,8,7);
+INSERT INTO `education` VALUES (1,'Cerificate in Full-Stack Web Developement.',NULL,4,5,4),(2,'Diploma in Aircraft Mechanics.',NULL,7,8,7),(3,NULL,'Mathematics for Computer Science.',5,6,5),(4,NULL,'Contract Law: From Trust to Promise to Contract.',6,7,6);
 
 
 

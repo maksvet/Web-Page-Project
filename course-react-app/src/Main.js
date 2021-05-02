@@ -11,6 +11,10 @@ import Portfolio from "./Portfolio";
 import Hobbies from "./Hobbies";
 import Login from "./Login";
 import entriesPage from "./entriesPage";
+import Resume_crud_1 from "./Resume_crud_1"
+import Resume_skill from "./Resume_skill"
+// import resume_crud_2 from "./Resume_crud_2"
+// import resume_crud_3 from "./Resume_crud_3"
  
 class Main extends Component {
   render() {
@@ -34,6 +38,8 @@ class Main extends Component {
             <Route path="/login" component={Login}/>
             <Route path="/entriespage" component={entriesPage}/>
             <Route path="/new" component={entriesPage}/>
+            <Route path="/Resume_crud_1" component={Resume_crud_1}/>
+            <Route path="/Resume_skill/:id" component={Resume_skill}/>
              
           </div>
         </div>

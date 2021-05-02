@@ -78,7 +78,7 @@ const Resume = () => {
         <div id="resume">
             {resume.education.map((item, key) => (
                 <li key={item.id} style={{ listStyle: "none" }}>
-                {item.education_title}. {item.start_date} - {item.finish_date}. {item.name}, {item.city}, {item.province}, {item.country}.<br/>
+                {item.education_title} {item.start_date} - {item.finish_date}. {item.name}, {item.city}, {item.province}, {item.country}.<br/>
                 </li>
             ))}
         </div>
@@ -88,7 +88,7 @@ const Resume = () => {
         <div id="resume">
             {resume.training.map((item, key) => (
                 <li key={item.id} style={{ listStyle: "none" }}>
-                {item.traning_title}. {item.start_date} - {item.finish_date}. {item.name}, {item.city}, {item.province}, {item.country}.<br/>
+                {item.traning_title} {item.start_date} - {item.finish_date}. {item.name}, {item.city}, {item.province}, {item.country}.<br/>
                 </li>
             ))}
         </div>
