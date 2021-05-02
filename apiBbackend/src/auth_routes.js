@@ -44,7 +44,7 @@ router.post('/contact_form/entries', validateItem, validateString, validateEmail
         return res.status(500).json(error);
       }})
 
-//Route to create a user, saving users in array for now
+//Route to create a user
 
 router.post('/users', validateUser, validateString, validatePswd, validateEmail, returnMessage, async (req, res) => {
     const emailInUse = await db.query(`SELECT ci.email FROM ${process.env.DBNAME}.admin a INNER JOIN ${process.env.DBNAME}.contact_info ci ON ( a.contact_id = ci.contact_id  )   WHERE ci.email = '${req.body.email}';`)
@@ -158,6 +158,7 @@ router.get('/resume', async (req, res) => {
      }
 )
 
+//personal info resume POST
 
 router.post("/resume/personal", async (req, res) => {
     // Get payload
@@ -195,6 +196,8 @@ router.post("/resume/personal", async (req, res) => {
     }
   }
   )
+
+//resume work experience POST
 
 
   router.post("/resume/work_experience", async (req, res) => {
@@ -244,6 +247,8 @@ router.post("/resume/personal", async (req, res) => {
     }
   }
   )
+
+//resume education POST
 
   router.post("/resume/education", async (req, res) => {
     // Get payload
