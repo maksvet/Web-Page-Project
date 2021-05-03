@@ -1,0 +1,41 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2580
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 Queries for FS1030 course project\
+Work experience\
+SELECT we.position, we.task, dt.start_date, dt.finish_date, a.country, a.province, a.city, ci.name\
+FROM `FS1030IndividualProject`.work_experience we \
+	INNER JOIN `FS1030IndividualProject`.date_to dt ON ( we.date_to_id = dt.date_to_id  )  \
+	INNER JOIN `FS1030IndividualProject`.address a ON ( we.address_id = a.address_id  )  \
+	INNER JOIN `FS1030IndividualProject`.contact_info ci ON ( we.contact_id = ci.contact_id  )  \
+GROUP BY we.position, we.task, dt.start_date, dt.finish_date, a.country, a.province, a.city, ci.name\
+\
+Admin\
+SELECT a.password, ci.name, ci.email\
+FROM `FS1030IndividualProject`.admin a \
+	INNER JOIN `FS1030IndividualProject`.contact_info ci ON ( a.contact_id = ci.contact_id  )  \
+GROUP BY a.password, ci.name, ci.email\
+\
+Contact form input\
+SELECT cfi.time_stamp, cfi.content, ci.name, ci.phone, ci.email\
+FROM `FS1030IndividualProject`.contact_form_input cfi \
+	INNER JOIN `FS1030IndividualProject`.contact_info ci ON ( cfi.contact_id = ci.contact_id  )  \
+GROUP BY cfi.time_stamp, cfi.content, ci.name, ci.phone, ci.email\
+\
+Education\
+SELECT e.education_title, e.traning_title, dt.start_date, dt.finish_date, ci.name, a.country, a.province, a.city\
+FROM `FS1030IndividualProject`.education e \
+	INNER JOIN `FS1030IndividualProject`.date_to dt ON ( e.date_to_id = dt.date_to_id  )  \
+	INNER JOIN `FS1030IndividualProject`.contact_info ci ON ( e.contact_id = ci.contact_id  )  \
+	INNER JOIN `FS1030IndividualProject`.address a ON ( e.address_id = a.address_id  )  \
+GROUP BY e.education_title, e.traning_title, dt.start_date, dt.finish_date, ci.name, a.country, a.province, a.city\
+\
+Personal info\
+SELECT a.country, a.province, a.city, a.street_address\
+FROM `FS1030IndividualProject`.personal_info pi \
+	INNER JOIN `FS1030IndividualProject`.address a ON ( pi.address_id = a.address_id  )  \
+GROUP BY a.country, a.province, a.city, a.street_address}

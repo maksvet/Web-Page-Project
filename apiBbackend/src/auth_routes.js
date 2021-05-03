@@ -130,10 +130,52 @@ router.get('/contact_form/entries/:id', authToken, async (req, res) => {
 
 //Portfolio GET
 router.get('/portfolio', async (req, res) => {
-    const entries = await db.query(`SELECT p.link, p.description FROM ${process.env.DBNAME}.portfoliio p GROUP BY p.link, p.description `)
-    res.status(200).send(entries)
+    const portfolio = await db.query(`SELECT p.link, p.description FROM ${process.env.DBNAME}.portfoliio p GROUP BY p.link, p.description `)
+    res.status(200).send(portfolio)
      }
 )
+
+//Portfolio POST
+router.portfolio('/portfolio', async (req, res) => {
+  const portfolio = await db.query(`INSERT INTO ${process.env.DBNAME}.portfolio ( link, description ) VALUES ( '${link}', '${description}' );`)
+  res.status(200).send(portfolio)
+   }
+)
+
+//Portfolio PUT
+
+router.put("/portfolio/:id", async (req, res) => {
+  // Get payload
+  const {
+//skills
+link,
+description
+  } = req.body
+
+try{
+    const result = await db.query(`UPDATE ${process.env.DBNAME}.portfolio SET link = "${link}", description = "${description}" WHERE portfolio_id = ${req.params.id}`)
+    await db.commit()
+    dbStatus(res, result)
+  } catch (error) {
+    console.log(error)
+    return res.status(500).json(error)
+  }
+}
+)
+
+//Portfolio DELETE
+router.delete("/portfolio/:id", async (req, res) => {
+  try{
+      const result = await db.query(`DELETE FROM ${process.env.DBNAME}.portfolio WHERE portfolio_id = ${req.params.id}`)
+      await db.commit()
+      dbStatus(res, result)
+    } catch (error) {
+      console.log(error)
+      return res.status(500).json(error)
+    }
+  }
+  )
+
 
 
 //Resume GET
