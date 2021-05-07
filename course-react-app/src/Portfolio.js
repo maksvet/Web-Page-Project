@@ -13,6 +13,7 @@ const Portfolio = () => {
     }
     fetchData();
   }, []);
+  console.log(portfolio)
 
     return (
         
@@ -23,7 +24,7 @@ const Portfolio = () => {
         <div id="resume">
             {portfolio.map((item, key) => (
                 <li key={item.id} style={{ listStyle: "none" }}>
-                <a href="{item.link}">{item.description}</a> 
+                <a target = "blank" href={item.link}>{item.description}</a> 
                 </li>
             ))}
         </div>
