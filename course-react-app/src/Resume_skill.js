@@ -10,12 +10,7 @@ const Resume_skill = (props) => {
   
 const { register, handleSubmit, reset } = useForm()     
 const [resume, setResume] = useState({
-  personal_info : [],
-  skills: [],
-  qualifications: [],
-  work_experience: [],
-  education: [],
-  training: []
+  skills: []
 });
 
         const [values, setValues] = useState({
@@ -50,6 +45,7 @@ const [resume, setResume] = useState({
 
 const onSubmit = async data => {
   await data
+  if (!data.skill) return alert ('Please modify entry field')
   const response = await fetch(`http://localhost:3008/resume/skill/${id}`, {
     method: "PUT",
     headers: {
