@@ -8,7 +8,8 @@ dotenv.config()
 import { db } from './database/connection.js'
 
 const app = express();
-const port = process.env.PORT
+const port = process.env.ENV_PORT
+//ENV_PORT
 
 app.use(cors());
 app.use(express.json());
