@@ -48,7 +48,7 @@ router.post('/contact_form/entries', validateItem, validateString, validateEmail
 
 router.post('/users', validateUser, validateString, validatePswd, validateEmail, returnMessage, async (req, res) => {
     const emailInUse = await db.query(`SELECT ci.email FROM ${process.env.DBNAME}.admin a INNER JOIN ${process.env.DBNAME}.contact_info ci ON ( a.contact_id = ci.contact_id  )   WHERE ci.email = '${req.body.email}';`)
-    if (emailInUse) {
+    if (emailInUse === req.body.email) {
         return res.status(403).json("Email address already in use")
     }
     req.body.admin_id = uuidv4()
@@ -136,7 +136,7 @@ router.get('/portfolio', async (req, res) => {
 )
 
 //Portfolio POST
-router.portfolio('/portfolio', async (req, res) => {
+router.post('/portfolio', async (req, res) => {
   const portfolio = await db.query(`INSERT INTO ${process.env.DBNAME}.portfolio ( link, description ) VALUES ( '${link}', '${description}' );`)
   res.status(200).send(portfolio)
    }
