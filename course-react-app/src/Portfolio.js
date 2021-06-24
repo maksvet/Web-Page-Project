@@ -23,7 +23,7 @@ const Portfolio = () => {
         <div id="resume">
             {portfolio.map((item, key) => (
                 <li key={item.id} style={{ listStyle: "none" }}>
-                <a href="{item.link}">{item.description}</a> 
+                <a href={item.link}>{item.description}</a> 
                 </li>
             ))}
         </div>
