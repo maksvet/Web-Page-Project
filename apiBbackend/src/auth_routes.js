@@ -46,7 +46,7 @@ router.post('/contact_form/entries', validateItem, validateString, validateEmail
 
 //Route to create a user
 
-router.post('/users', validateUser, validateString, validatePswd, validateEmail, returnMessage, async (req, res) => {
+router.post('/users', authToken, validateUser, validateString, validatePswd, validateEmail, returnMessage, async (req, res) => {
     const emailInUse = await db.query(`SELECT ci.email FROM ${process.env.DATABASE_NAME}.admin a INNER JOIN ${process.env.DATABASE_NAME}.contact_info ci ON ( a.contact_id = ci.contact_id  )   WHERE ci.email = '${req.body.email}';`)
     if (emailInUse === req.body.email) {
         return res.status(403).json("Email address already in use")
@@ -84,8 +84,8 @@ router.post('/auth', async (req, res, error) => {
    
     const request = await req.body
     const users = await db.query(`SELECT a.password, a.contact_id, ci.email FROM ${process.env.DATABASE_NAME}.admin a INNER JOIN ${process.env.DATABASE_NAME}.contact_info ci ON ( a.contact_id = ci.contact_id) WHERE ci.email = '${request.email}';`)
-        
-    if (!users){
+      
+    if (users.length === 0){
             return res.status(403).json("incorrect email provided")
         }
     const pswdValid = await bcrypt.compare(request.password, users[0].password)
@@ -136,7 +136,7 @@ router.get('/portfolio', async (req, res) => {
 )
 
 //Portfolio POST
-router.post('/portfolio', async (req, res) => {
+router.post('/portfolio', authToken, async (req, res) => {
   const portfolio = await db.query(`INSERT INTO ${process.env.DATABASE_NAME}.portfolio ( link, description ) VALUES ( '${link}', '${description}' );`)
   res.status(200).send(portfolio)
    }
@@ -144,7 +144,7 @@ router.post('/portfolio', async (req, res) => {
 
 //Portfolio PUT
 
-router.put("/portfolio/:id", async (req, res) => {
+router.put("/portfolio/:id", authToken, async (req, res) => {
   // Get payload
   const {
 //skills
@@ -164,7 +164,7 @@ try{
 )
 
 //Portfolio DELETE
-router.delete("/portfolio/:id", async (req, res) => {
+router.delete("/portfolio/:id", authToken, async (req, res) => {
   try{
       const result = await db.query(`DELETE FROM ${process.env.DATABASE_NAME}.portfolio WHERE portfolio_id = ${req.params.id}`)
       await db.commit()
