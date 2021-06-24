@@ -11,11 +11,11 @@ import { badRequest, objProps, objUserProps, message, validateItem, validateUser
 import dotenv from "dotenv";
 dotenv.config();
 
-//kept for developing only
+//kept for developing purposes
 const dbStatus = (res, results) => {
     if (results.affectedRows !== 0)
-      return res.status(200).json(`Database successfully updated!`);
-    return res.status(400).json(`Error: database not updated!!`);
+      return res.status(200).end();
+    return res.status(400).end();
   };
     
 
@@ -84,7 +84,7 @@ router.post('/auth', async (req, res, error) => {
    
     const request = await req.body
     const users = await db.query(`SELECT a.password, a.contact_id, ci.email FROM ${process.env.DATABASE_NAME}.admin a INNER JOIN ${process.env.DATABASE_NAME}.contact_info ci ON ( a.contact_id = ci.contact_id) WHERE ci.email = '${request.email}';`)
-      
+    console.log(users)    
     if (users.length === 0){
             return res.status(403).json("incorrect email provided")
         }
