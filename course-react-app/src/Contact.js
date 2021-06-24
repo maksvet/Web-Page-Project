@@ -15,8 +15,8 @@ import React, { useState } from "react";
               },
             body: JSON.stringify({name, email, phone, content })
         })
-        const payload = await response.json()
-      alert(payload)
+        const payload = await response
+      //alert(payload)
         if (response.status >= 400) {
           alert(`Oops! Error: ${payload.error}`)//fields require validation
         } else {
