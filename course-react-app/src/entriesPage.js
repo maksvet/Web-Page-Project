@@ -8,6 +8,7 @@ import React, { useState } from "react";
     const jwt = localStorage.getItem('token')
     const response = await fetch('https://fs1040course-project-p2xhr6rraq-nn.a.run.app/contact_form/entries', {
             method: 'GET',
+            mode: "cors",
             headers: {
                 'Authorization': 'Bearer ' + jwt
             },

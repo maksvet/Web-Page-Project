@@ -47,7 +47,7 @@ Temporary Items
 
 # production
 /build
-
+/course-react-app/build
 # misc
 .DS_Store
 

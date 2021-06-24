@@ -10,6 +10,7 @@ import { useHistory } from "react-router-dom";
     event.preventDefault()
     const response = await fetch('https://fs1040course-project-p2xhr6rraq-nn.a.run.app/auth', {
             method: 'POST',
+            mode: "cors",
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'

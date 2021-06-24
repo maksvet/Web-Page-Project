@@ -9,6 +9,7 @@ import React, { useState } from "react";
     event.preventDefault()
     const response = await fetch('https://fs1040course-project-p2xhr6rraq-nn.a.run.app/contact_form/entries', {
             method: 'POST',
+            mode: "cors",
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
