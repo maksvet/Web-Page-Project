@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
     app: #defines the app container
-        container_name: project-backend
+        container_name: fs1040apibackend
         build:
             context: .
         command: ["./wait-for-it.sh" , "db:3306" , "--strict" , "--timeout=300" , "--" , "npm",  "start"]
