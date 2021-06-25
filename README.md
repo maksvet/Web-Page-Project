@@ -4,14 +4,13 @@ Project scope:
 Utilizing GCP, students will deploy their latest iteration of their program project within the public cloud. This project must take advantage of a compute service (Cloud Run), as well as one of the cloud hosted databases (Cloud SQL). If you do not have a working program project, please see instructor.
 
 Development goals:
-Create an appropriate Dockerfile for the backend of your program project
+Create an appropriate Dockerfile for the backend of the project
 Create an appropriate Docker Compose setup 
-Setup GCP using the services you have chosen to launch the application above, and deploy a working example.
-Update (or add) your README.md file with instructions 
+Setup GCP using the services to launch the application and deploy a working example.
+Update README.md file with instructions 
 Create a merge request (or pull request) and assign to instructor.
-Create a static website for the frontend of your program project
-Assign a custom domain for your static website, and update your README from requirement#4 above to include this new domain name.
-Message instructor on slack with a sample username/password of your website. Note this is the username/password that will need to be created so the instructor can interact with your project's login page.
+Create a static website for the frontend of the project
+Assign a custom domain for static website, and update your README to include this new domain name.
 
 How to run:
 Install dependencies for apiBbackend and course-react-app separately

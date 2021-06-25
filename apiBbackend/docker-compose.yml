@@ -1,0 +1,24 @@
+version: '3.7'
+
+services:
+    app: #defines the app container
+        container_name: project-backend
+        build:
+            context: .
+        command: ["./wait-for-it.sh" , "db:3306" , "--strict" , "--timeout=300" , "--" , "npm",  "start"]
+        environment: #set the environment variables as per instructions on docker hub
+            DATABASE_HOST: ${DATABASE_HOST}
+            DATABASE_USER: ${DATABASE_USER}
+            DATABASE_PASSWORD: ${DATABASE_PASSWORD}
+            DATABASE_NAME: ${DATABASE_NAME}
+        ports: #need to setup port mapping
+            - "3000:3000"
+        depends_on: #we need the database server for this container to be functional
+            - db
+    
+    db:
+        image: mysql
+        command: --default-authentication-plugin=mysql_native_password
+        restart: always
+        volumes:
+            - ./data:/var/lib/mysql
