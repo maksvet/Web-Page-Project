@@ -1,7 +1,7 @@
-FS1030 Individual project.
+FS1040 course project
 
 Project scope:
-Implement MySql database into existing personal web page using Node.js and React. Add dynamic CMS-like functionality to Resume and Portfolio pages.
+
 
 Development goals:
 
