@@ -7,7 +7,7 @@ import React, { useState } from "react";
   const [content, setContent] = useState("")
   const formSubmit = async event => {
     event.preventDefault()
-    const response = await fetch('https://fs1040course-project-p2xhr6rraq-nn.a.run.app/contact_form/entries', {
+    const response = await fetch(`${process.env.REACT_APP_API}/contact_form/entries`, {
             method: 'POST',
             mode: "cors",
             headers: {

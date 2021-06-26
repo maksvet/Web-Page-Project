@@ -7,7 +7,7 @@ const config = {
   // host: process.env.DBHOST,
   user: process.env.DATABASE_USER,
   password: process.env.DATABASE_PASSWORD,
-  database: process.env.DATABASE_NAME,
+  database: process.env.DATABASE_NAME
 };
 // adding lines iaw connection lab
 if (process.env.DATABASE_SOCKET) {

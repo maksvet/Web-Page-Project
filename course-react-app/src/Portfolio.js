@@ -7,7 +7,7 @@ const Portfolio = () => {
 
   useEffect(() => {
     async function fetchData() {
-      const res = await fetch("https://fs1040course-project-p2xhr6rraq-nn.a.run.app/portfolio");
+      const res = await fetch(`${process.env.REACT_APP_API}/portfolio`);
       res.json().then((res) => setPortfolio(res));
       //.catch((err) => setErrors(err));
     }

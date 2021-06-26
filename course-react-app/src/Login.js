@@ -8,7 +8,7 @@ import { useHistory } from "react-router-dom";
   const [jwt, setJwt] = useState("")
   const formSubmit = async event => {
     event.preventDefault()
-    const response = await fetch('https://fs1040course-project-p2xhr6rraq-nn.a.run.app/auth', {
+    const response = await fetch(`${process.env.REACT_APP_API}/auth`, {
             method: 'POST',
             mode: "cors",
             headers: {

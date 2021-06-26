@@ -8,6 +8,11 @@
 # Icon must end with two \r
 Icon
 
+# dotenv
+.env
+
+# data folder
+data
 
 # Thumbnails
 ._*
