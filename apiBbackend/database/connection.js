@@ -2,21 +2,26 @@ import mysql from "mysql";
 import dotenv from "dotenv";
 import util from "util";
 dotenv.config();
-
-//const mysql = require("mysql");
+// modifying env iaw connection lab for GCP connection
 const config = {
-  host: process.env.DBHOST,
-  user: process.env.DBUSER,
-  password: process.env.DBPASSWORD,
-  database: process.env.DBNAME,
+  // host: process.env.DBHOST,
+  user: process.env.DATABASE_USER,
+  password: process.env.DATABASE_PASSWORD,
+  database: process.env.DATABASE_NAME
 };
-
+// adding lines iaw connection lab
+if (process.env.DATABASE_SOCKET) {
+  config.socketPath = process.env.DATABASE_SOCKET
+} else {
+  config.host = process.env.DATABASE_HOST
+}
+// end of new addition
 const conn = (config) => {
   const connection = mysql.createConnection(config);
   connection.connect((err) => {
     if (err) throw err;
     console.log(
-      `Database connected! ${process.env.DBUSER} @ ${process.env.DBNAME} `
+      `Database connected! ${process.env.DATABASE_USER} @ ${process.env.DATABASE_NAME} `
     );
   });
   return {
@@ -39,21 +44,3 @@ const conn = (config) => {
 };
 
 export const db = conn(config);
-
-// const connection = mysql.createConnection({
-//   host: "localhost",
-//   user: "nodeclient",
-//   password: "123456",
-//   database: "FS1030IndividualProject",
-// });
-
-// connection.connect(function (err) {
-//   if (err) {
-//     console.error("error connecting: " + err.stack);
-//     return;
-//   }
-
-//   console.log("Database connected");
-// });
-
-// module.exports = connection;

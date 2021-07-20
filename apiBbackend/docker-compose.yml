@@ -1,0 +1,37 @@
+version: '3.7'
+
+services:
+    app: #defines the app container
+        container_name: courseProject
+        environment: #set the environment variables as per instructions on docker hub
+            ENV_PORT: ${ENV_PORT}
+            TOKEN_SECRET: ${TOKEN_SECRET}
+            DATABASE_HOST: ${DATABASE_HOST}
+            DATABASE_USER: ${DATABASE_USER}
+            DATABASE_PASSWORD: ${DATABASE_PASSWORD}
+            DATABASE_NAME: ${DATABASE_NAME}
+            
+        build:
+            context: .
+        command: ["./wait-for-it.sh" , "db:3306" , "--strict" , "--timeout=300" , "--" , "npm",  "start"]
+        ports: #need to setup port mapping
+            - "9001:3008"
+        depends_on: #we need the database server for this container to be functional
+            - db
+        env_file:
+            - .env
+    
+    db:
+        image: mysql:5.7
+        restart: always
+        environment:
+            MYSQL_ROOT_PASSWORD: "123456"
+            MYSQL_USER: ${DATABASE_USER}
+            MYSQL_PASSWORD: ${DATABASE_PASSWORD}
+            MYSQL_DATABASE: ${DATABASE_NAME}
+        # image: mysql:5.7 #we are getting this from a pre-built image
+        volumes:
+            - ./data:/var/lib/mysql
+            
+        ports: #need to be able to connect to the db as well
+            - "9000:3306"

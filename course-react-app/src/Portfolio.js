@@ -7,7 +7,7 @@ const Portfolio = () => {
 
   useEffect(() => {
     async function fetchData() {
-      const res = await fetch("http://localhost:3008/portfolio");
+      const res = await fetch(`${process.env.REACT_APP_API}/portfolio`);
       res.json().then((res) => setPortfolio(res));
       //.catch((err) => setErrors(err));
     }
@@ -23,7 +23,7 @@ const Portfolio = () => {
         <div id="resume">
             {portfolio.map((item, key) => (
                 <li key={item.id} style={{ listStyle: "none" }}>
-                <a href="{item.link}">{item.description}</a> 
+                <a href={item.link}>{item.description}</a> 
                 </li>
             ))}
         </div>

@@ -5,19 +5,19 @@ import React, { useState } from "react";
   const [email, setEmail] = useState("")
   const [phone, setPhone] = useState("")
   const [content, setContent] = useState("")
-  //const [password] = "somepassword" // I left password for the API to be functional
   const formSubmit = async event => {
     event.preventDefault()
-    const response = await fetch('http://localhost:3008/contact_form/entries', {
+    const response = await fetch(`${process.env.REACT_APP_API}/contact_form/entries`, {
             method: 'POST',
+            mode: "cors",
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
               },
             body: JSON.stringify({name, email, phone, content })
         })
-        const payload = await response.json()
-      alert(payload)
+        const payload = await response
+      //alert(payload)
         if (response.status >= 400) {
           alert(`Oops! Error: ${payload.error}`)//fields require validation
         } else {

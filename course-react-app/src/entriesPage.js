@@ -6,8 +6,9 @@ import React, { useState } from "react";
   const loadEntries = async event => {
     event.preventDefault()
     const jwt = localStorage.getItem('token')
-    const response = await fetch('http://localhost:3008/contact_form/entries', {
+    const response = await fetch(`${process.env.REACT_APP_API}/contact_form/entries`, {
             method: 'GET',
+            mode: "cors",
             headers: {
                 'Authorization': 'Bearer ' + jwt
             },
