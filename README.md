@@ -1,4 +1,4 @@
-FS1040 course project
+Individual project was hosted on (deployed on GCP, Cloud Storage & CloudRun)
 
 www.msvetlakov.me
 
